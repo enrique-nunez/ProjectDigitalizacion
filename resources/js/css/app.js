@@ -4,17 +4,14 @@ export const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1
     },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.secondary
-    },
+
     appBar: {
         [theme.breakpoints.up("sm")]: {
             width: `calc(100% - ${240}px)`,
             marginLeft: 240
         }
     },
+
     heading: {
         fontSize: theme.typography.pxToRem(15),
         flexBasis: "33.33%",
