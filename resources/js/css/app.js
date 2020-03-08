@@ -11,7 +11,7 @@ export const useStyles = makeStyles(theme => ({
     },
     appBar: {
         [theme.breakpoints.up("sm")]: {
-            width: `calc(100% -${240})`,
+            width: `calc(100% - ${240}px)`,
             marginLeft: 240
         }
     },
@@ -32,6 +32,11 @@ export const useStyles = makeStyles(theme => ({
     },
     content: {
         flexGrow: 1,
+        marginLeft: 240,
+        [theme.breakpoints.down("md")]: {
+            marginLeft: 0
+        },
+        marginTop: 40,
         padding: theme.spacing(3)
     }
 }))
