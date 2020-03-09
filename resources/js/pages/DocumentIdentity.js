@@ -6,6 +6,7 @@ import { useStyles } from "../css/app";
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import styles from "../css/classapp";
+import sendData from "../bus/sendData"
 class DocumentIdentity extends React.Component {
 
     constructor(props) {
@@ -16,7 +17,9 @@ class DocumentIdentity extends React.Component {
         }
     }
     componentDidMount() {
-
+        sendData.subscribe(data => {
+            console.log("data", data)
+        })
     }
     toggleModal = () => {
         const { open } = this.state
