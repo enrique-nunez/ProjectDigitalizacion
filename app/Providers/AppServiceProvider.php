@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Src\repository\Impl\IdentityDocumentImpl;
+use Src\repository\Inter\IdentityDocumentInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(
+            IdentityDocumentInterface::class,
+            IdentityDocumentImpl::class
+        );
         //
     }
 
