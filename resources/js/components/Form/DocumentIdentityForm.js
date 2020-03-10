@@ -3,28 +3,34 @@ import {
     Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Button, Grid, InputLabel, Input, FormHelperText } from "@material-ui/core";
+import { Button, Grid, InputLabel, Input, Box } from "@material-ui/core";
 import { FormControl } from '@material-ui/core';
-import SendData from "../../bus/sendData"
+import SendData from "../../bus/sendData";
 import documentIndetityService from "../../services/DocumentIdentityService";
 export class DocumentIdentityForm extends React.Component {
     constructor(props) {
         super(props)
-    }
+        const { documentEdit } = props
+        this.state = {
+            documentEdit: documentEdit != null ? documentEdit : { shortName: "", limit: "", fullName: "" }
 
+        }
+
+    }
     onSubmit = async (data) => {
         console.log(data)
-        let documentIdentityCreate = (await documentIndetityService.create(data)).data
-        SendData.next(documentIdentityCreate)
+        // let documentIdentityCreate = (await documentIndetityService.create(data)).data
+        SendData.next(data)
+    }
+    isEdit() {
+        const { documentEdit } = this.state
+        return Object.values(documentEdit).some(property => property == "");
+
     }
     render() {
+        const { documentEdit } = this.state
         return (<React.Fragment>
-            <Formik initialValues={{
-                shortName: "",
-                limit: "",
-                fullName: "",
-                id: ""
-            }} onSubmit={this.onSubmit}>
+            <Formik initialValues={documentEdit} enableReinitialize={true} onSubmit={this.onSubmit}>
                 {({ values,
                     errors,
                     touched,
@@ -35,7 +41,7 @@ export class DocumentIdentityForm extends React.Component {
 
                         <Form>
                             <Grid container spacing={2}>
-                                <Input name="id" id="my-input12" type="hidden" value={values.shortName} />
+                                <Input name="id" id="my-input12" type="hidden" value={values.id} />
                                 <Grid item={true} xs={12} lg={6}>
                                     <FormControl fullWidth={true}>
                                         <InputLabel htmlFor="my-input1">Nombre corto:</InputLabel>
@@ -54,14 +60,18 @@ export class DocumentIdentityForm extends React.Component {
                                         <Input onChange={handleChange} name="limit" type="number" id="my-input3" aria-describedby="my-helper-text" value={values.limit} />
                                     </FormControl>
                                 </Grid>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    disabled={isSubmitting}
-                                    type="submit"
-                                >
-                                    Guardar
-                         </Button>
+                                <Grid item xs={12} lg={6}>
+                                    <Box display="flex" justifyContent="flex-end" alignItems="flex-end" >
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={isSubmitting}
+                                            type="submit"
+                                        >
+                                            {this.isEdit() ? 'Guardar' : 'Editar'}
+                                        </Button>
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Form>
 
