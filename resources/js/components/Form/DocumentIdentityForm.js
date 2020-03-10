@@ -12,15 +12,21 @@ export class DocumentIdentityForm extends React.Component {
         super(props)
         const { documentEdit } = props
         this.state = {
-            documentEdit: documentEdit != null ? documentEdit : { shortName: "", limit: "", fullName: "" }
+            documentEdit: documentEdit != null ? documentEdit : { shortName: "", limit: "", fullName: "", id: 0 }
 
         }
 
     }
-    onSubmit = async (data) => {
-        console.log(data)
-        // let documentIdentityCreate = (await documentIndetityService.create(data)).data
-        SendData.next(data)
+    onSubmit = async (document) => {
+        let documentData;
+        if (document.id && document.id > 0) {
+            (await documentIndetityService.update(document, document.id)).data
+            documentData = document
+        } else {
+
+            documentData = (await documentIndetityService.create(document)).data
+        }
+        SendData.next(documentData)
     }
     isEdit() {
         const { documentEdit } = this.state

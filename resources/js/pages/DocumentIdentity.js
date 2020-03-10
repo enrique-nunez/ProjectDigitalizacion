@@ -8,6 +8,7 @@ import styles from "../css/classapp";
 import sendData from "../bus/sendData"
 import DocumentIdentityList from "../components/down/DocumentIdentityList";
 import Backdrop from '@material-ui/core/Backdrop';
+import DocumentIdentityService from "../services/DocumentIdentityService";
 class DocumentIdentity extends React.Component {
 
     constructor(props) {
@@ -15,17 +16,21 @@ class DocumentIdentity extends React.Component {
         console.log(props)
         this.state = {
             open: false,
-            documents: [{ id: 1, shortName: "lalala", fullName: "ksksks", limit: 2 }],
+            documents: [],
             documentEdit: null
         }
     }
-    componentDidMount() {
-        this.subscribeData = sendData.subscribe(data => {
+    async componentDidMount() {
+        let documents = (await DocumentIdentityService.all()).data
+        this.setState({
+            documents
+        })
+        this.subscribeData = sendData.subscribe(documentParam => {
             const { documents } = this.state
-            data.id = Math.round(Math.random() + 9)
-            documents.push(data)
+            console.log("doc", documentParam)
+            let index = documents.findIndex(document => document.id == documentParam.id)
+            index == -1 ? documents.push(documentParam) : documents[index] = documentParam;
             this.setState({ documents })
-            console.log("data", data)
         })
     }
     componentWillUnmount() {

@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 //Auth::routes();
 Route::view('/{path?}', 'welcome');
 Route::post("/api/documentIdentity/save", "DocumentIdentityController@save");
+Route::get("/api/documentIdentity/all", "DocumentIdentityController@all");
+Route::post("/api/documentIdentity/update", "DocumentIdentityController@update");

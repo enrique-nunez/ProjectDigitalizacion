@@ -22,6 +22,7 @@ class IdentityDocumentImpl implements IdentityDocumentInterface
     }
     public function update(array $data, $id)
     {
+        return $this->model->find($id)->update($data);
     }
     public function find($id)
     {

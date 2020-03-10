@@ -16,4 +16,12 @@ class DocumentIdentityController extends Controller
     {
         return $this->repository->create(json_decode(json_encode($request->json()->all()), true));
     }
+    public function all()
+    {
+        return $this->repository->all();
+    }
+    public function update(Request $request)
+    {
+        return $this->repository->update(json_decode(json_encode($request->json()->all()), true), 1);
+    }
 }
